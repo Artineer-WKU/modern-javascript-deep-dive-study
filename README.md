@@ -605,3 +605,359 @@ ES6 브라우저 지원 현황
 - 변수보단 상수를 사용해야 함. (값 변경 억제)
 - 변수이름은 목적, 의미 파악할 수 있게 네이킹해야 함. 모든 식별자(변수, 함수, 클래스 이름 등)는 존재이유 파악할 수 있게 짓기.
 - 가독성이 좋은 코드가 좋은 코드임을 잊지말 것.
+
+
+
+# 7~9장 정리
+
+## 07장 <연산자>
+
+### 0) 연산자란?
+
+- 연산자는 하나 이상의 표현식을 대상으로 계산을 수행해 하나의 값을 만듦. 이때 연산의 대상은 피연산자임. 피연산자는 값으로 평가될 수 있는 표현식이어야 함. 또한 피연산자와 연산자의 조합으로 이뤄진 연산자 표현식도 값으로 평가되는 표현식이어야 함.
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/63e80dbc-9535-43d0-ac13-5eccf8dec533/Untitled.png)
+    
+- 피연산자는 ‘연산의 대상’이 되어야 하므로 ‘값’으로 평가할 수 있어야 함. 연산자는 (값으로 평가된)피연산자 연산해 새값 만듦.
+
+### 1) 산술 연산자
+
+- 수학적 계산을 수행해 새 숫자값 만듦.  산술 연산이 불가하면, NaN을 반환함.
+
+1-1) 이항 산술 연산자
+
+- **+   -    *    /      %**
+- 2개의 피연산자를 산술연산해 숫자값을 만듦.
+- 부수효과(피연산자 값 변경)가 없고, 언제나 새 값 만듦.
+
+1-2) 단항 산술 연산자
+
+- **++    - -      +     -**
+- 1개의 피연산자를 산술연산해 숫자값 만듦.
+- 증가/감소(++/- -)연산자는 부수효과가 있음.
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7b42ba2d-70b0-441d-abc6-fd730db3b13c/Untitled.png)
+    
+- 숫자타입이 아닌 피연산자에 +단항 연산자를 사용하면 피연산자를 숫자타입으로 변환해 반환함. 이때 피연산자를 변경하진 않음. 따라서 부수효과 X.
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f74159ec-4165-4d9e-b08b-1c9bfc50141b/Untitled.png)
+    
+- - 단항 연산자는 **+ → -, - → +**로 피연산자의 부호를 반전한 값 반환함. 숫자타입 아닌 피연산자에 사용하면 숫자타입으로 변환해 반환함. 이때 피연산자를 변경하진 않음.따라서 부수효과 X.
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f2f5b6a3-73b1-4e7c-bf45-610f96a2a8e4/Untitled.png)
+    
+
+1-3) 문자열 연결 연산자
+
+- + 연산자는 피연산자 중 하나 이상이 문자열일 때 문자열 연결 연산자로 동작함.
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/40ed8738-4716-4e57-888f-d8a7677fe2ed/Untitled.png)
+    
+    true, false, null은 각각 1,0,0으로 타입 변환됨. 이를 암묵적타입변환(타입강제변환)이라고 함. undefined는 숫자로 타입변환되지 않음. 
+    
+
+### 2) 할당 연산자
+
+- **=    +=    -=    *=    /=    %=**
+- 우항에 있는 피연산자의 평가결과를 좌항의 변수에 할당함. 따라서 부수효과 O
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d649b18b-65df-440a-91a9-9a6590be0fd8/Untitled.png)
+    
+- 할당문은 값으로 평가되는 표현식이고, 할당된 값으로 평가됨. (var x;  console.log(x=10); //10, x=10은 x에 할당된 10으로 평가됨)
+- 할당문은 표현식인 문이므로 여러 변수에 동일한 값 연쇄 할당할 수 있음. (var a,b,c;   a=b=c=0;  //모두 0으로 초기화됨)
+
+### 3) 비교 연산자
+
+- 좌항과 우항의 피연산자 비교 후 결과를 불리언 값(true, false)으로 변환함. if, for문 같은 제어문에서 주로 사용함.
+
+3-1) 동등/일치 비교 연산자
+
+- **==(동등비교)    ===(일치비교)    ! =    ! ==**
+- 좌항과 우항의 피연산자가 같은 값으로 평가되는지 비교해 불리언값 반환함.
+- ==(동등비교)는 느슨, ===(일치비교)는 엄격함.
+- ==(동등비교)는 비교할 때 암묵적타입변환 통해 타입 일치 시킨 후 같은 값인지 비교함. 따라서 타입이 다르더라도 같은 값이면 true임. (5==’5’ //true) 결과 예측이 어렵고, 사용자제 해야 함.
+- ===(일치비교)는 타입,  값이 같을 때 true 반환함. 따라서 암묵적타입변환 하지 않음. (5===’5’ //false)
+- NaN은 자신과 일치하지 않는 유일한 값임 따라서 숫자가 NaN인지 조사하려면 isNaN 사용함.(isNaN(NaN); 과 isNaN(1+undefined);는 모두 true 반환함)
+- js에는 양과 음의 0이 있는데 이들을 일치/동등 비교하면 true 반환하므로 주의!!
+- ! =(부동등비교)와 ! ==(불일치비교)는 각각 동등, 일치 연산자의 반대 개념. (5 != 5; //false) (5 !== ’5’; //true)
+
+3-2) 대소 관계 비교 연산자
+
+- **> < ≥ ≤**
+- 피연산자 크기 비교해 불리언값 반환함.
+
+### 4) 삼항 조건 연산자
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6e91f1e8-2038-4d34-83b6-6db0c959d12f/Untitled.png)
+
+## 08장 <제어문>
+
+- 조건에 따라 코드블록실행(조건문)하거나 반복실행(반복문)할 때 사용함.
+- 제어문 사용하면 코드 실행 순서가 변경되므로 가독성 해침. forEach, map, filter, reduce 같은 고차함수는 제어문 사용 억제해 복잡성 해결함.
+
+1) 블록문 (=코드블록)
+
+- 0개 이상의 문을 중괄호로 묶음.
+- 블록문을 하나의 실행단위로 취급함.
+- 단독으로 쓸 수 있으나 일반적으로 제어문, 함수 정의할 때 사용.
+- 블록문은 언제나 자체 종결성 갖기 때문에 세미콜론 붙이지 않음.
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ea3ab428-a014-46f2-9219-65f5be604860/Untitled.png)
+    
+
+2) 조건문
+
+- 조건식은 불리언값으로 평가되는 표현식임.
+
+2-1) if … else문
+
+- if 문의 조건식은 불리언값으로 평가되어야 함. 만약 불리언이 아닌 값으로 평가되면 js 엔진에 의해 암묵적 타입 변환됨.
+    
+    ![코드 블럭 내의 내용이 한 줄이면 중괄호 생략가능.](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/60a04f81-26dd-49b8-b40d-bbbb30c74d63/Untitled.png)
+    
+    코드 블럭 내의 내용이 한 줄이면 중괄호 생략가능.
+    
+- 대부분의 if 문은 삼항 조건 연산자로 바꿔쓸 수 있음.
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/88660abe-c4cd-497f-9f92-d539c540745f/Untitled.png)
+    
+    ![조건식의 값이 0이어서 불리언 값인 false로 변환됨](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5f9efb5f-d510-4368-bb8e-5f2af5096479/Untitled.png)
+    
+    조건식의 값이 0이어서 불리언 값인 false로 변환됨
+    
+- 경우가 세 가지일때도 삼항 조건 연산자로 표현할 수 있음
+    
+    ![왼쪽 num의 값이 0이므로 false로 변환돼 ‘영’이 반환됨.](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/60430b8f-fb36-44a2-a62e-ed40ea03b293/Untitled.png)
+    
+    왼쪽 num의 값이 0이므로 false로 변환돼 ‘영’이 반환됨.
+    
+- num>0 ? ‘양’ : ‘음’은 값으로 표현되기에 표현식임. 따라서 삼항 조건 연산자는 값처럼 사용할 수 있어서 변수에 할당할 수 있음. 하지만! if … else문은 표현식이 아닌 문임. 따라서 변수에 할당할 수 없음.
+
+2-2) switch문
+
+- 주어진 표현식 평가하여 그 값과 일치하는 표현식 갖는 case문으로 실행흐름 옮기.
+- 표현식과 일치하는 case문이 없으면 default문으로 이동함. default문은 옵션.
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/22071c20-3338-41d9-94d8-460552a539ae/Untitled.png)
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/56903a6d-8abd-454a-9f3e-0e6149dc3dfb/Untitled.png)
+    
+- 문의 마지막에 break문을 사용하지 않으면 해당하는 문에서 탈출하지 않고 맨 마지막 문으로 할당되는 걸 폴스루라고 함. (유용할 때도 있음)
+- default문은 break문 생략이 일반적임.(switch문의 맨 마지막에 위치하므로 자동으로 switch문을 빠져나오기 때문에)
+
+3) 반복문
+
+- 조건식이 거짓일 때까지 평가해 코드블록 반복함.
+
+3-1) for문
+
+- 반복횟수가 명확할 때 주로 사용함.
+- 밑 예제는 i 변수가 0으로 초기화된 상태에서 시작함.
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/294e1c84-69c0-4ca9-a14a-dbb78d08364f/Untitled.png)
+    
+- 무한루프
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a313c16f-1a5d-4e7f-94d3-4fb3ff7497f0/Untitled.png)
+    
+
+3-2) while문
+
+- 반복횟수가 불명확할 때 주로 사용함.
+- 조건식의 평가 결과가 참이면 코드 블록을 계속해서 반복실행함.
+- 조건식의 결과가 불리언값이 아니면 암묵적 타입 변환해 논리적 참, 거짓 구별함.
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6c906692-ca26-40d6-8091-daa3afc0b323/Untitled.png)
+    
+- 무한루프에서 탈출하려면 if문으로 탈출조건 만들고 break문으로 탈출함.
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/15297e32-f3a8-44c3-afd3-40e493478af8/Untitled.png)
+    
+
+3-3) do … while문
+
+- 무조건 한 번 이상 실행 후 조건식 평가함.
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7ff57dd7-d805-4ffe-b92a-664503f7579a/Untitled.png)
+    
+
+4) break문
+
+- 반복문, switch문 외 레이블문에서도 코드 블록을 탈출함.
+- 이 외에 break문 사용하면 SyntaxError(문법오류) 발생함.
+- 레이블문은 식별자가 붙은 문으로 프로그램의 실행순서를 제어함. (switch문의 case, default도 레이블문임) 레이블문 탈출하려면 break문에 레이블 식별자 지정해야 함.
+    
+    ![하지만 중첩된 for문 외부로 탈출할 때만 사용하길 권장함.](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6c431a1b-da1c-4c51-b88d-a1a253f4eab4/Untitled.png)
+    
+    하지만 중첩된 for문 외부로 탈출할 때만 사용하길 권장함.
+    
+- 문자열에서 특정 문자의 인덱스(위치)를 검색하는 예제임.
+    
+    ![문자열 세번째 ‘l’에 도착하면 for문을 탈출해버림.](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a11f3371-e425-4274-915a-02538a4da718/Untitled.png)
+    
+    문자열 세번째 ‘l’에 도착하면 for문을 탈출해버림.
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b1f1680b-8e88-4834-a721-a5aabdfafc59/Untitled.png)
+    
+
+### 5) continue문
+
+- 반복문의 코드블록실행을 현 지점에서 중단하고 증감식(맨 위)로 실행흐름 이동함.
+    
+    ![문자열에서 특정 문자 개수 세는 예제.](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4a4fde89-91b9-423e-a94f-7312a4e603ef/Untitled.png)
+    
+    문자열에서 특정 문자 개수 세는 예제.
+    
+    ![위 예제의 for문과 동일하게 작동함.](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9b79e02d-682f-4678-840b-5003ed4048e8/Untitled.png)
+    
+    위 예제의 for문과 동일하게 작동함.
+    
+    if문 내에 실행해야 할 코드가 한 줄이면 위와 같이, 코드가 길다면 continue문을 사용하는게 가독성이 좋음.
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f0f4151b-e048-4d1f-951b-f78c30698e70/Untitled.png)
+    
+
+## 09장 <타입 변환과 단축 평가>
+
+### 1) 타입 변환이란?
+
+- js의 모든 값은 타입이 있음. 이를 개발자 의도에 따라 변환할 수 있음. 이것을 **명시적 타입 변환(타입 캐스팅)**이라고 함. 반대로, 개발자 의도완 달리 표현식 평가 중 js엔진에 의해 변환되는 건 **암묵적 타입 변환(타입 강제 변환)**이라고 함.
+    
+    ![명시적 타입 변환](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/aeb6d51c-e64b-492c-ba43-ab7d29dfa9e2/Untitled.png)
+    
+    명시적 타입 변환
+    
+- 둘 다 원래의 값을 변경하지 않음. 타입 변환은 기존 원시값 사용해 다른 타입의 새 원시값 생성하는 것임.
+    
+    ![암묵적 타입 변환](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/607e3480-2ff3-480e-a4e6-9e3797f946a5/Untitled.png)
+    
+    암묵적 타입 변환
+    
+    js엔진은 표현식 x + ‘’ 평가하기 위해 x 변수의 숫자값(10)을 바탕으로 새 문자열 값 ‘10’ 생성하고 이것으로 ‘10’=’’ 평가함. 이때 암묵적으로 생성된 ‘10’은 x에 재할당되지 않고 표현식 평가가 끝나면 아무도 참조 않으므로 가비지 콜렉터에 의해 메모리에서 해제됨. 즉, js엔진은 피연산자값을 암묵적으로 타입변환해 새 타입 값 만들어내고 단한 번 쓰고 버림.
+    
+- **중요한 건 코드를 예측할 수 있어야 함.**
+
+### 2) 암묵적 타입 변환
+
+- js엔진은 코드의 문맥을 고려해 암묵적 타입 변환함.
+
+2-1) 문자열 타입으로 변환
+
+- **1 + ‘2’ // 102** 에서 +연산자는 피연산자 중 하나 이상이 문자열이므로 문자열 연결 연산자로 동작함. 따라서 +연산자의 모든 피연산자는 문맥상 문자열 타입이어야 함.
+- 피연산자만이 암묵적 타입 변환이 되는 건 아님. 템플릿 리터럴의 표현식 삽입은 표현식의 평가 결과를 암타변함.
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d30bf3a7-0d96-4e7a-8d6b-ec53211c0505/Untitled.png)
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cd4e6f11-95b1-4941-bbc0-4c306e8b7453/Untitled.png)
+    
+
+2-2) 숫자 타입으로 변환
+
+- -, *, / 연산자는 숫자값을 만드는 게 목적이기 때무에 문맥상 피연산자가 모두 숫자타입이어야 함. 이때 피연산자를 숫자타입으로 반환할 수 없다면, 평가결과로 NaN을 반환함.
+- 불리언 값을 만들어내는게 목적인 비교 연산자(>, <) 역시, 피연산자의 크기를 비교해야 하므로 문맥상 모두 숫자타입이어야 함. 따라서 문맥에 따라 암타변함.
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8ed37e8a-c299-4761-977e-879023ec908e/Untitled.png)
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d2c8a3d9-d4d6-4b46-b661-c67684b4babe/Untitled.png)
+    
+    빈 ‘’, 빈 [], null, false는 0으로, true는 1로 변환됨.(객체, 비지 않은 배열, undefined는 변환되지 않아 NaN이 됨)
+    
+
+2-3) 불리언 타입으로 변환
+
+- if, for문 같은 제어문 또는 상항 조건 연산자의 조건식은 불리언(true, false)값으로 평가되는 표현식임.
+- 이때 js엔진은 불리언 타입이 아닌 값인 Truthy(참으로 평가되는 값)는 true로, Falsy는 False로 암타변함. false로 평가되는 Falsy값은 false, undefined, null, 0, -0, NaN, ‘’(빈 문자열)이 있음. 이외의 모든 값은 ture로 평가되는 Truthy값임.
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5a06ce28-e8ae-42a7-92e7-cb2307383897/Untitled.png)
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d2ad6cc3-51f7-46b3-be82-bb6690eb9b70/Untitled.png)
+    
+
+### 3) 명시적 타입 변환
+
+- 표준 비트인 생성자함수(string, AQNumber, Boolean)를 new 연산자 없이 호출하는 방법, 빌트인 메서드 사용하는 방법, 앞서 본 암묵적 타입 변환 이용하는 방법이 있음.
+- 3-1) 문자열 타입으로 변환
+    1. String 생성자 함수를 new 연산자 없이 호출하는 방법
+        
+        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/59a0c3fb-b540-4ce2-b2da-c477381f9f01/Untitled.png)
+        
+    2. Object.prototype.toStirng 메서드를 사용하는 방법
+        
+        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/29fe9d40-f09f-4196-aad7-5dd0e8c8e0ad/Untitled.png)
+        
+    3. 문자열 연결 연산자를 이용하는 방법
+        
+        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6588180d-f856-4d32-b9c6-5368fa8745df/Untitled.png)
+        
+- 3-2) 숫자 타입으로 변환
+    1. Number 생성자 함수를 new 연산자 없이 호출하는 방법
+        
+        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9f89d75c-207a-4b56-99c0-6336efb4bfaf/Untitled.png)
+        
+    2. parseInt. parseFloat 함수를 사용하는 방법(문자열만 숫자로 타입변환가능)
+        
+        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/fe5894a2-bca8-4e70-a975-c45f73c5b23b/Untitled.png)
+        
+    3. + 단항 산술 연산자 이용하는 방법
+        
+        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9a09c369-bb7e-4d8e-a52b-433ccb71fb42/Untitled.png)
+        
+    4. * 산술 연산자 이용하는 방법
+        
+        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7006ea07-1d6b-44d4-9e4d-814c7c2d5c55/Untitled.png)
+        
+- 3-3) 불리언 타입으로 변환
+    1. Boolean 생성자 함수를 new 연산자 없이 호출하는 방법
+        
+        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/608e8cd7-6bf6-4a56-a75b-d93661b4f7a3/Untitled.png)
+        
+    2. ! 부정 논리 연산자를 두 번 사용하는 방법 
+        
+        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2106105c-1102-4601-b3e1-dfba2be1b867/Untitled.png)
+        
+
+### *4) 단축 평가*
+
+4-1) 논리 연산자를 사용한 단축 평가
+
+- “논리합(::) 또는 논리곱(&&) 연산자 표현식의 평가결과는 불리언 값이 아닐 수 있음. 이들은 언제나 2개의 피연산자 중 어느 한 쪽으로 평가됨.”
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bec55747-79a1-4817-a431-05c4588788bc/Untitled.png)
+    
+    논리곱 연산자는 2개의 피연산자가 모두 true로 평가될 때 true 반환함. 또한 좌항에서 우항으로 평가됨. 여기서 ‘Cat’이 Truethy값이라서 true로 평가되는 시점까진 위 표현식을 평가할 수 없음. 두번째 피연산자까지 평가해봐야 위 표현식 평가 가능함. 다시 말해, “두번째 피연산자가 논리곱 연산자 표현식의 평가결과를 결정(좌우)함. 그리고 논리연산의 결과 결정하는 두번째 피연산자, ‘Dog’를 그대로 반환함. 
+    
+- 논리합(::) 연산자도 위와 동일히 동작함. 논리합은 2개의 피연산자 중 하나만 true로 평가되도 true 반환함. 그럼 이때, Truthy값이므로 true로 평가되는 ‘Cat’이 그대로 반환됨. “두번째 피연산자까지 평가해보지 않아도 표현식 평가할 수 있기 때문”
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5c6669eb-6da6-433f-ac75-3e73f0f9bea3/Untitled.png)
+    
+    이처럼 &&, :: 연산자는 논리연산의 결과를 결정하는 피연산자를 타입 변환 없이, 그대로 반환함. 이를 단축 평가라고 함. 표현식 평가 도중 평가결과가 확정된 경우, 나머지 평가과정 생략하는 것임.
+    
+- 단축 평가로 if문 대체할 수 있음. 어떤 조건이 Truthy값일때 무언가 해야한다면, 논리곱(&&)연산자 표현식으로 대체함.
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a5ee6c70-b7fc-47fb-8555-f67536cebad2/Untitled.png)
+    
+    조건이 Falsy값일땐 논리합(::)으로 대체가능
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/28cc19b1-e52e-4070-b594-c0c8d9c42f24/Untitled.png)
+    
+- 참고로 삼항 조건 연산자는 if…else문 대체가능함.
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cf190621-d5fc-4fb2-be15-2087cb8a4db6/Untitled.png)
+    
+- 단축평가에는 유용한 패턴이 있음.
+
+4-2) 옵셔널 체이닝 연산자
+
+- ES11에서 도입된 옵셔널 체이닝 연산자(?.)는 좌항의 피연산자가 null, undefined인 경우 undefined를 반환하고, 그렇지 않으면 우항의 프로퍼티 참조 이어감.
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7d7dfcd1-9635-48ee-95f3-0f7e7e30fead/Untitled.png)
+    
+    ?.는 객체를 가리키기 기대하는 변수가 null, defined가 아닌지 확인하고 프로퍼티 참조할 때 유용함. 도입되기 전에는 논리연산자 && 사용한 단축평가 통해 변수가 null, defined인지 확인했음.
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/da1de528-8da5-444d-b60b-0d55319ad098/Untitled.png)
+    
+    &&는 좌항 피연산자가 falsy값(false, undefined, null, 0, -0, NaN, ‘’)이면 좌항 피연산자를 그대로 반환함. 하지만 0, ‘’은 객체로 평가될 때도 있음.
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a8d0107d-b3b2-4b25-ba21-8da008ae885c/Untitled.png)
+    
+    155p확인
